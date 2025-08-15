@@ -12,7 +12,7 @@ st.subheader("Filing dates: January 2016 - sample dataset")
 df, embeddings_normalized, patent_to_idx, model = load_df(prefix=f"outputs_sample"), load_embeddings(prefix=f"outputs_sample"), load_patent_to_idx(prefix=f"outputs_sample"), load_model(prefix=f"outputs_sample")
 
 patent_input = st.text_input("Enter UPSTO Patent Number (e.g. 9713127)", value="9713127")
-st.write("Note: This is a sample dataset for patents filed in Janurary 2017")
+st.write("Note: This is a sample dataset for patents filed in Janurary 2016")
 
 if patent_input:
     if patent_input not in patent_to_idx:

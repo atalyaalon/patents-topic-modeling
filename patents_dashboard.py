@@ -3,7 +3,8 @@ import plotly.express as px
 from s3_utils import load_topics_by_year_df, load_topics_count_df
 
 st.set_page_config(page_title="Patent Dashboard", layout="wide")
-st.title("Patent Topics Dashboard, Filing Years - 2013-2017")
+st.title("Patent Topics Dashboard, Filing Years - 2013-2017, Patent Number exists")
+
 st.subheader("[Click here to visit GitHub repo](https://github.com/atalyaalon/patents-topic-modeling)")
 
 
@@ -133,3 +134,5 @@ fig.update_layout(
 )
 modify_fig_layout(fig)
 st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("Note: This dashboard only presents patents that received a patent number")

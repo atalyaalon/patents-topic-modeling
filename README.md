@@ -1,6 +1,6 @@
 ## Patent Topic Modeling & Similarity Search
 
-This project analyzes a set of patents to automatically discover thematic groupings and enable semantic similarity search, using patent data from the [HUPD dataset](https://huggingface.co/datasets/HUPD/hupd). For this demo, a subset of patents filed between **2013 and 2017** was used.
+This project analyzes a set of patents to automatically discover thematic groupings and enable semantic similarity search, using patent data from the [HUPD dataset](https://huggingface.co/datasets/HUPD/hupd). For this demo, a subset of patents that **received a patent number**, and filed between **2013 and 2017** was used.
 
 **🔗 Live Demo:** [View on Streamlit](https://patents-topic-modeling.streamlit.app)
 The Streamlit app provides a sample of high-level statistics on the topic results, including insights into top topics, topics over the years, and selected topics that experienced significant growth.
@@ -100,10 +100,9 @@ streamlit run patents_dashboard.py
 The app allows you to:
 
 * View high-level statistics on:
-
   * Selected topics that experienced growth
   * Patent topics distribution
-  * Patents filed over the years
+  * Patents received a patent number, filed over the years
 * Find similar patents *(work-in-progress feature)*
 
 ---
@@ -113,11 +112,13 @@ The app allows you to:
 ```
 ├─ README.md                      # Project overview and setup instructions
 ├─ LICENSE                        # MIT License
-├─ hupd_modified.py               # HUPD modified loading script, optimized for disk storage
 ├─ patents_topic_modeling.ipynb   # Notebook to train BERTopic on patent data
 ├─ trending_topics.ipynb          # Notebook for analyzing trending topics
 ├─ s3_utils.py                    # Utility functions for S3 data handling
+├─ hupd_modified.py               # HUPD dataset loader (optimized for disk storage), adapted from official repo
 ├─ requirements.txt               # Python dependencies
-├─ patents_dashboard.py           # Streamlit app for visualization & exploration
+├─ patents_dashboard.py           # Main Streamlit app for visualization & exploration
+├─ pages/
+│  └─ patent_explorer.py          # Streamlit page for exploring similar patents
 └─ .env                           # Environment variables (API keys, dataset type, AWS)
 ```
