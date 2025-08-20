@@ -9,10 +9,10 @@ st.subheader("Filing dates: January 2016 - sample dataset")
 
 # Use sample dataset, load all data into memory
 # TODO: adjust outputs and code to load full dataset
-df, embeddings_normalized, patent_to_idx, model = load_df(prefix=f"outputs_sample"), load_embeddings(prefix=f"outputs_sample"), load_patent_to_idx(prefix=f"outputs_sample"), load_model(prefix=f"outputs_sample")
+S3_PREFIX = f"outputs_sample"
+df, embeddings_normalized, patent_to_idx, model = load_df(prefix=S3_PREFIX), load_embeddings(prefix=S3_PREFIX), load_patent_to_idx(prefix=S3_PREFIX), load_model(prefix=S3_PREFIX)
 
 patent_input = st.text_input("Enter UPSTO Patent Number (e.g. 9713127)", value="9713127")
-st.write("Note: This is a sample dataset for patents filed in Janurary 2016")
 
 if patent_input:
     if patent_input not in patent_to_idx:
@@ -20,7 +20,7 @@ if patent_input:
     else:
         idx = patent_to_idx[patent_input]
         link = f"https://patents.google.com/patent/US{patent_input}"
-        st.write(f"### [Patent US{patent_input} link]({link})")
+        st.markdown(f"[Patent US{patent_input} link]({link})")
         st.subheader(f"Patent title: {df.iloc[idx]['title']}")
 
         topic_id = df.iloc[idx]["topic"]
@@ -50,3 +50,7 @@ if patent_input:
             doc_title = df["title"].iloc[i]
             doc_link = f"https://patents.google.com/patent/US{pn_sim}"
             st.write(f"- **{pn_sim}** (score: {sim_score:.3f}): {doc_title} - [Link]({doc_link})")
+
+st.write("Note: This is a sample dataset for patents filed in January 2016 and received a patent number.")
+
+st.subheader("[Click here to visit the GitHub repo](https://github.com/atalyaalon/patents-topic-modeling)")

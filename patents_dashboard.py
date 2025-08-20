@@ -2,11 +2,12 @@ import streamlit as st
 import plotly.express as px
 from s3_utils import load_topics_by_year_df, load_topics_count_df
 
-st.set_page_config(page_title="Patent Dashboard", layout="wide")
-st.title("Patent Topics Dashboard, Filing Years - 2013-2017, Patent Number exists")
+st.set_page_config(page_title="Patent Topics", layout="wide")
+st.title("Patent Topics Dashboard")
+st.subheader("Filing years - 2013-2017, patent number exists")
+st.subheader("[Click here to visit the GitHub repo](https://github.com/atalyaalon/patents-topic-modeling)")
 
-st.subheader("[Click here to visit GitHub repo](https://github.com/atalyaalon/patents-topic-modeling)")
-
+st.header("Selected trending topics Found in exploration")
 
 def modify_fig_layout(fig) -> None:
     fig.update_layout(
@@ -31,10 +32,11 @@ def modify_fig_layout(fig) -> None:
 df_by_year = load_topics_by_year_df()
 df_topics = load_topics_count_df()
 
-# Selected Trending Topics
-st.subheader("Selected Trending Topics Found in Exploration")
+# First Selected Topic
 increasing_topic_ids = [25]
 df_by_year_increasing = df_by_year.loc[df_by_year.topic_id.isin(increasing_topic_ids)]
+curr_topic_name = df_by_year_increasing['topic_words'].iloc[0]
+st.subheader(f"Selected topic: {curr_topic_name} - showing an increase of 549% between 2013 and 2016")
 year_order = sorted(df_by_year_increasing['year'].unique())
 
 fig = px.line(
@@ -54,6 +56,9 @@ fig.update_layout(
 )
 modify_fig_layout(fig)
 st.plotly_chart(fig, use_container_width=True)
+
+# Additional Selected Topics
+st.subheader(f"Additional selected topics - showing an increase between 2013 and 2016")
 
 increasing_topic_ids = [252, 101, 124, 187]
 df_by_year_increasing = df_by_year.loc[df_by_year.topic_id.isin(increasing_topic_ids)]
@@ -79,12 +84,15 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("Patents in the UAV/drones, Augmented Reality, 3D printing, eye tracking, and IoT experienced significant growth between 2013 and 2016.\n\nIn 2017, filings declined compared to 2016, which mirrors the overall drop in total patents filed that year. This trend warrants further investigation.\n")
 
+
+st.header("High-level statistics")
 # Top 10 topics
+st.subheader("Top 10 Topics")
+
 df_topics_count = df_topics.copy()
 df_topics_count = df_topics_count.loc[df_topics_count.topic_id != -1]
 df_topics_count = df_topics_count.nlargest(10, 'count')
 
-st.subheader("Top 10 Topics")
 fig = px.bar(
     df_topics_count,
     x="topic_words",
@@ -101,8 +109,9 @@ modify_fig_layout(fig)
 st.plotly_chart(fig, use_container_width=True)
 
 # Patents by year
-df_count_per_year = df_by_year.groupby("year", as_index=False)["count"].sum()
 st.subheader("Total Patents by Filing Year")
+df_count_per_year = df_by_year.groupby("year", as_index=False)["count"].sum()
+
 fig = px.bar(
     df_count_per_year,
     x="year",
